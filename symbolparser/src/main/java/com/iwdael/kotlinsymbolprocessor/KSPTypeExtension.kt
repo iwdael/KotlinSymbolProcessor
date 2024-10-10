@@ -12,7 +12,7 @@ import com.squareup.kotlinpoet.ksp.toClassName
 fun KSPType.asTypeName(): TypeName {
     return try {
         if (types.isEmpty()) {
-            ksp.resolve().toClassName()
+            ksp.resolve().toClassName().copy(ksp.resolve().isMarkedNullable)
         } else {
             ksp.resolve().toClassName().parameterizedBy(types.map { it!!.asTypeName() })
         }
