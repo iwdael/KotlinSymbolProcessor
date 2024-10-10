@@ -11,17 +11,5 @@ import com.squareup.kotlinpoet.ksp.toTypeName
  * @desc this is KSPTypeExtension
  */
 fun KSPType.asTypeName(): TypeName {
-    return try {
-        if (types.isEmpty()) {
-            ksp.resolve().toClassName().copy(ksp.resolve().isMarkedNullable)
-        } else {
-            ksp.resolve().toClassName()
-                .let {
-                    it.copy(ksp.resolve().isMarkedNullable, it.annotations, it.tags)
-                }
-                .parameterizedBy(types.map { it!!.asTypeName() })
-        }
-    } catch (e: Exception) {
-        throw RuntimeException(e)
-    }
+    return ksp.toTypeName()
 }
